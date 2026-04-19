@@ -1,0 +1,21 @@
+aws_region  = "us-east-1"
+name_prefix = "plane-ce"
+
+db_password = "replace-with-strong-password"
+
+tags = {
+  Environment = "dev"
+  Owner       = "platform"
+  Project     = "plane"
+}
+
+# Optional custom domain
+# domain_name      = "plane.example.com"
+# certificate_arn  = "arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# route53_zone_id  = "Z1234567890"
+
+# Enable managed Redis (always-on cost)
+# create_elasticache_redis = true
+
+# Alternative: use external Redis URL
+# external_redis_url = "redis://host:6379"
