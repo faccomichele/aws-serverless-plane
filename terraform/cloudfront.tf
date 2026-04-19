@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "plane" {
 
     forwarded_values {
       query_string = true
-      headers      = ["*"]
+      headers      = ["Host", "Authorization", "CloudFront-Forwarded-Proto"]
 
       cookies {
         forward = "all"

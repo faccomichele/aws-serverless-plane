@@ -86,7 +86,7 @@ resource "aws_ecs_task_definition" "web" {
       essential    = true
       portMappings = [{ containerPort = 3000, hostPort = 3000, protocol = "tcp" }]
       environment = concat(local.default_container_env, [
-        { name = "NEXT_PUBLIC_API_BASE_URL", value = "${var.certificate_arn != "" ? "https" : "http"}://${aws_lb.plane.dns_name}" }
+        { name = "NEXT_PUBLIC_API_BASE_URL", value = var.domain_name != "" ? "https://${var.domain_name}" : "https://${aws_cloudfront_distribution.plane.domain_name}" }
       ])
       logConfiguration = {
         logDriver = "awslogs"

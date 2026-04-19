@@ -14,7 +14,7 @@ def _sum_requests(cw_client, alb_suffix, minutes, namespace, metric_name):
         Dimensions=[{"Name": "LoadBalancer", "Value": alb_suffix}],
         StartTime=start,
         EndTime=end,
-        Period=max(minutes * 60, 60),
+        Period=min(max(minutes * 60, 60), 86400),
         Statistics=["Sum"]
     )
 

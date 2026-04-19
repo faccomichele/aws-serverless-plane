@@ -8,10 +8,11 @@ import boto3
 def _service_running(ecs_client, cluster, service):
     response = ecs_client.describe_services(cluster=cluster, services=[service])
     svc = response["services"][0]
-    deployments = svc.get("deployments", [])
-    if not deployments:
+    deployments = svc.get("deployments") or []
+    if len(deployments) == 0:
         return False
-    return svc.get("runningCount", 0) > 0 and deployments[0].get("rolloutState") == "COMPLETED"
+    first_deployment = deployments[0]
+    return svc.get("runningCount", 0) > 0 and first_deployment.get("rolloutState") == "COMPLETED"
 
 
 def _ensure_running(ecs_client, cluster, service):
