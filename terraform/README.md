@@ -38,6 +38,6 @@ This folder contains a cost-aware Terraform baseline for deploying Plane CE with
 ## Cost notes
 
 - ECS services default to desired count `0` for scale-to-zero baseline.
-- Aurora defaults to min ACU `0` and sets idle pause configuration (where supported by selected engine/platform).
+- Aurora defaults to min ACU `0` and max ACU `1` for low baseline compute cost.
 - ElastiCache Redis is disabled by default (always-on cost).
 - CloudFront uses `PriceClass_100`.

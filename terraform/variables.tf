@@ -69,12 +69,6 @@ variable "db_max_acu" {
   default     = 1
 }
 
-variable "db_auto_pause_seconds" {
-  description = "Seconds until Aurora idle pause when supported by selected engine/platform."
-  type        = number
-  default     = 600
-}
-
 variable "plane_bucket_name" {
   description = "Optional explicit S3 bucket name."
   type        = string

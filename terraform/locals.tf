@@ -10,7 +10,7 @@ locals {
   )
 
   redis_url = var.create_elasticache_redis ? format("redis://%s:%d", aws_elasticache_replication_group.redis[0].primary_endpoint_address, 6379) : (
-    var.create_fargate_redis ? "redis://redis:6379" : var.external_redis_url
+    var.create_fargate_redis ? format("redis://redis.%s:6379", aws_service_discovery_private_dns_namespace.plane[0].name) : var.external_redis_url
   )
 
   default_container_env = [

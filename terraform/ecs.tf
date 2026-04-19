@@ -16,6 +16,30 @@ resource "aws_ecs_cluster" "plane" {
   tags = local.common_tags
 }
 
+resource "aws_service_discovery_private_dns_namespace" "plane" {
+  count = var.create_fargate_redis ? 1 : 0
+
+  name = "${local.name_prefix}.local"
+  vpc  = aws_vpc.main.id
+
+  tags = local.common_tags
+}
+
+resource "aws_service_discovery_service" "redis" {
+  count = var.create_fargate_redis ? 1 : 0
+
+  name = "redis"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.plane[0].id
+
+    dns_records {
+      type = "A"
+      ttl  = 10
+    }
+  }
+}
+
 resource "aws_ecs_task_definition" "api" {
   family                   = "${local.name_prefix}-api"
   network_mode             = "awsvpc"
@@ -261,6 +285,10 @@ resource "aws_ecs_service" "redis" {
     subnets          = var.ecs_use_private_subnets ? aws_subnet.private[*].id : aws_subnet.public[*].id
     security_groups  = [aws_security_group.ecs.id]
     assign_public_ip = var.ecs_use_private_subnets ? false : true
+  }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.redis[0].arn
   }
 
   tags = local.common_tags

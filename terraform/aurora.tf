@@ -13,9 +13,8 @@ resource "aws_rds_cluster" "aurora" {
   deletion_protection     = false
 
   serverlessv2_scaling_configuration {
-    min_capacity             = var.db_min_acu
-    max_capacity             = var.db_max_acu
-    seconds_until_auto_pause = var.db_auto_pause_seconds
+    min_capacity = var.db_min_acu
+    max_capacity = var.db_max_acu
   }
 
   tags = merge(local.common_tags, { Name = "${local.name_prefix}-aurora" })

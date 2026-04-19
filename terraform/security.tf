@@ -54,6 +54,16 @@ resource "aws_security_group" "ecs" {
     security_groups = [aws_security_group.alb.id]
   }
 
+  dynamic "ingress" {
+    for_each = var.create_fargate_redis ? [1] : []
+    content {
+      from_port = 6379
+      to_port   = 6379
+      protocol  = "tcp"
+      self      = true
+    }
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
