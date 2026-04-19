@@ -62,7 +62,7 @@ resource "aws_ecs_task_definition" "web" {
       essential    = true
       portMappings = [{ containerPort = 3000, hostPort = 3000, protocol = "tcp" }]
       environment = concat(local.default_container_env, [
-        { name = "NEXT_PUBLIC_API_BASE_URL", value = "http://${aws_lb.plane.dns_name}" }
+        { name = "NEXT_PUBLIC_API_BASE_URL", value = "${var.certificate_arn != "" ? "https" : "http"}://${aws_lb.plane.dns_name}" }
       ])
       logConfiguration = {
         logDriver = "awslogs"
@@ -254,7 +254,7 @@ resource "aws_ecs_service" "redis" {
   name            = "${local.name_prefix}-redis"
   cluster         = aws_ecs_cluster.plane.id
   task_definition = aws_ecs_task_definition.redis[0].arn
-  desired_count   = 0
+  desired_count   = var.redis_desired_count
   launch_type     = "FARGATE"
 
   network_configuration {

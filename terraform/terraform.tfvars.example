@@ -19,3 +19,7 @@ tags = {
 
 # Alternative: use external Redis URL
 # external_redis_url = "redis://host:6379"
+
+# If using Fargate Redis, set desired count as needed
+# create_fargate_redis = true
+# redis_desired_count  = 1

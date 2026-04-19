@@ -3,7 +3,7 @@
 This folder contains a cost-aware Terraform baseline for deploying Plane CE with:
 
 - ECS Fargate services (web/api/worker/beat)
-- Aurora PostgreSQL Serverless v2 (auto-pause support)
+- Aurora PostgreSQL Serverless v2
 - S3 for uploads
 - ALB + CloudFront ingress
 - Optional Route53 alias
@@ -38,6 +38,6 @@ This folder contains a cost-aware Terraform baseline for deploying Plane CE with
 ## Cost notes
 
 - ECS services default to desired count `0` for scale-to-zero baseline.
-- Aurora defaults to min ACU `0` and auto-pause after `600` seconds.
+- Aurora defaults to min ACU `0` and sets idle pause configuration (where supported by selected engine/platform).
 - ElastiCache Redis is disabled by default (always-on cost).
 - CloudFront uses `PriceClass_100`.

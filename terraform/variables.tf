@@ -52,7 +52,7 @@ variable "db_password" {
 }
 
 variable "db_engine_version" {
-  description = "Aurora PostgreSQL engine version supporting Serverless v2 auto-pause."
+  description = "Aurora PostgreSQL engine version used by the Serverless v2 cluster."
   type        = string
   default     = "15.7"
 }
@@ -70,7 +70,7 @@ variable "db_max_acu" {
 }
 
 variable "db_auto_pause_seconds" {
-  description = "Seconds until Aurora auto-pause."
+  description = "Seconds until Aurora idle pause when supported by selected engine/platform."
   type        = number
   default     = 600
 }
@@ -157,6 +157,12 @@ variable "create_fargate_redis" {
   description = "Run Redis as a small ECS/Fargate service for lower idle cost patterns."
   type        = bool
   default     = false
+}
+
+variable "redis_desired_count" {
+  description = "Desired task count for optional Fargate Redis service."
+  type        = number
+  default     = 0
 }
 
 variable "ecs_use_private_subnets" {
