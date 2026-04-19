@@ -75,6 +75,24 @@ resource "aws_lb_listener_rule" "api" {
   }
 }
 
+resource "aws_lb_listener_rule" "api_https" {
+  count = var.certificate_arn != "" ? 1 : 0
+
+  listener_arn = aws_lb_listener.https[0].arn
+  priority     = 10
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.api.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/*"]
+    }
+  }
+}
+
 resource "aws_lb_listener" "https" {
   count = var.certificate_arn != "" ? 1 : 0
 
